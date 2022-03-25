@@ -1,7 +1,6 @@
 package com.example.prepitbackend.service.bl;
 
 import com.example.prepitbackend.domain.User;
-import com.example.prepitbackend.domain.UserPrincipal;
 import com.example.prepitbackend.repository.UserRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,14 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User " + username + " not found");
         }
         
-        return new UserPrincipal(user);
+        return user;
     }
 
 }

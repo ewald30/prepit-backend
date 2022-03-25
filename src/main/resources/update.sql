@@ -13,3 +13,21 @@ CREATE TABLE `user` (
   `activity_type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) 
+
+-- Creation of authority table
+CREATE TABLE `prepit_test`.`authority` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(45) NULL,
+  `description` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`));
+
+-- Bridge between tables
+  CREATE TABLE `prepit_test`.`user_authority` (
+  `user_id` INT NOT NULL,
+  `auth_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `auth_id`));
+
+-- populate tables
+INSERT INTO `prepit_test`.`authority` (`id`, `code`, `description`) VALUES ('1', 'ADMIN', 'Application administrator');
+INSERT INTO `prepit_test`.`authority` (`id`, `code`, `description`) VALUES ('2', 'USER', 'Simple user');
+INSERT INTO `prepit_test`.`user_authority` (`user_id`, `authority_id`) VALUES ('1', '1');
