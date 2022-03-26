@@ -14,7 +14,7 @@
     <name>prepit-backend</name>
     <description>prepit-backend</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>18</java.version>
     </properties>
     <dependencies>
         <dependency>
