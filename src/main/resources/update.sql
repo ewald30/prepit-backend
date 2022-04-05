@@ -24,10 +24,12 @@ CREATE TABLE `prepit_test`.`authority` (
 -- Bridge between tables
   CREATE TABLE `prepit_test`.`user_authority` (
   `user_id` INT NOT NULL,
-  `auth_id` INT NOT NULL,
+  `authority_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `auth_id`));
 
+
 -- populate tables
+INSERT INTO `prepit_test`.`user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `age`, `weight`, `height`, `gender`) VALUES ('1', 'ewald', '$2a$10$jOVHZFg9GmggtQRK6GpAwutl.ay5q2pHi4Y0aRo4vxmHsl2APGx4q', 'berla.ewald30@gmail.com', 'Ewald', 'Berla', '22', '87', '180', 'male');
 INSERT INTO `prepit_test`.`authority` (`id`, `code`, `description`) VALUES ('1', 'ADMIN', 'Application administrator');
 INSERT INTO `prepit_test`.`authority` (`id`, `code`, `description`) VALUES ('2', 'USER', 'Simple user');
 INSERT INTO `prepit_test`.`user_authority` (`user_id`, `authority_id`) VALUES ('1', '1');

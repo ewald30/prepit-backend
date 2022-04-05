@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
         if (user == null) {
             throw new UsernameNotFoundException("User " + username + " not found");
         }
-        
+        System.out.println("Logged in: " + user.toString());
         return user;
     }
 
