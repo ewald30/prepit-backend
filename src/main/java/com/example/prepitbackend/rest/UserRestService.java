@@ -2,7 +2,7 @@ package com.example.prepitbackend.rest;
 
 import java.security.Principal;
 
-import com.example.prepitbackend.dao.UserInfoDao;
+import com.example.prepitbackend.dto.UserInfoDTO;
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.service.bl.UserService;
 
@@ -23,21 +23,21 @@ public class UserRestService extends BaseService {
     @GetMapping(value ="/info", produces = "application/json")
     public ResponseEntity<Object> getUserInfo(Principal user){
         User userObj = userService.loadUserByUsername(user.getName()) ;       
-        UserInfoDao userInfoDao = new UserInfoDao();
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
         
-        userInfoDao.setId(userObj.getId());
-        userInfoDao.setUsername(userObj.getUsername());
-        userInfoDao.setEmail(userObj.getEmail());
-        userInfoDao.setFirstName(userObj.getFirstName());
-        userInfoDao.setLastName(userObj.getLastName());
-        userInfoDao.setWeight(userObj.getWeight());
-        userInfoDao.setHeight(userObj.getHeight());
-        userInfoDao.setAge(userObj.getAge());
-        userInfoDao.setActivityType(userObj.getActivityType());
-        userInfoDao.setGender(userObj.getGender());
-        userInfoDao.setRoles(userObj.getAuthorities().toArray());
+        userInfoDTO.setId(userObj.getId());
+        userInfoDTO.setUsername(userObj.getUsername());
+        userInfoDTO.setEmail(userObj.getEmail());
+        userInfoDTO.setFirstName(userObj.getFirstName());
+        userInfoDTO.setLastName(userObj.getLastName());
+        userInfoDTO.setWeight(userObj.getWeight());
+        userInfoDTO.setHeight(userObj.getHeight());
+        userInfoDTO.setAge(userObj.getAge());
+        userInfoDTO.setActivityType(userObj.getActivityType());
+        userInfoDTO.setGender(userObj.getGender());
+        userInfoDTO.setRoles(userObj.getAuthorities().toArray());
 
-        return this.renderResponse(userInfoDao);
+        return this.renderResponse(userInfoDTO);
     }
     
 }

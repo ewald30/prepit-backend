@@ -4,12 +4,17 @@ package com.example.prepitbackend.rest;
  *  and provides access to methods for rendering responses
  */
 
- import org.springframework.http.ResponseEntity;
+ import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class BaseService {
 
     protected ResponseEntity<Object> renderResponse(Object object){
         return ResponseEntity.ok(object);
     }
-    
+
+    protected ResponseEntity<Object> renderServerError(String message){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+   }
+
 }

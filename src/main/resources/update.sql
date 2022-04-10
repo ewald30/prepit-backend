@@ -33,3 +33,17 @@ INSERT INTO `prepit_test`.`user` (`id`, `username`, `password`, `email`, `first_
 INSERT INTO `prepit_test`.`authority` (`id`, `code`, `description`) VALUES ('1', 'ADMIN', 'Application administrator');
 INSERT INTO `prepit_test`.`authority` (`id`, `code`, `description`) VALUES ('2', 'USER', 'Simple user');
 INSERT INTO `prepit_test`.`user_authority` (`user_id`, `authority_id`) VALUES ('1', '1');
+
+--4.11.2022 Add field enabled to user
+ALTER TABLE `prepit_test`.`user` 
+ADD COLUMN `enabled` TINYINT NULL DEFAULT 0 AFTER `activity_type`,
+ADD COLUMN `usercol` VARCHAR(45) NULL AFTER `enabled`;
+
+-- create toke for mail verification
+CREATE TABLE `verification_token` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `expire_date` datetime DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)

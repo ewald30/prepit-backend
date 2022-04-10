@@ -1,4 +1,4 @@
-package com.example.prepitbackend.dao;
+package com.example.prepitbackend.dto;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserInfoDao {
+public class UserInfoDTO {
     private Long id;
     private String username;
     private String email;
