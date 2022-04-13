@@ -1,6 +1,7 @@
 package com.example.prepitbackend.auth;
 
 import java.util.Arrays;
+import java.util.Properties;
 
 import com.example.prepitbackend.service.bl.UserService;
 
@@ -30,13 +31,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JavaMailSenderImpl mailSender() {
-        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-
-        javaMailSender.setProtocol("smtp");
-        javaMailSender.setHost("127.0.0.1");
-        javaMailSender.setPort(25);
-
-        return javaMailSender;
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        
+        mailSender.setUsername("prepit30@gmail.com");
+        mailSender.setPassword("MGHk8y47");
+        
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+        
+        return mailSender;
     }
 
     @Autowired
