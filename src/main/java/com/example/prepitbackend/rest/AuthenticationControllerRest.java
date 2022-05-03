@@ -3,13 +3,11 @@ package com.example.prepitbackend.rest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Calendar;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.prepitbackend.auth.JWTTokenHelper;
-import com.example.prepitbackend.dto.UserInfoDTO;
 import com.example.prepitbackend.dto.UserRegisterDTO;
 import com.example.prepitbackend.registration.RegistrationCompleteEvent;
 import com.example.prepitbackend.domain.AuthRequest;
@@ -99,7 +97,7 @@ public class AuthenticationControllerRest extends BaseService{
 
         user.setEnabled(true); 
         userService.saveRegisteredUser(user); 
-        return renderResponse(user);
+        return renderResponse("Success!");
     }
     
 }
