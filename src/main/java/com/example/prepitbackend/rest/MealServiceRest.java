@@ -1,14 +1,20 @@
 package com.example.prepitbackend.rest;
 
+import java.util.ArrayList;
+
+import com.example.prepitbackend.domain.Goal;
+import com.example.prepitbackend.dto.MealAlgorithmDTO;
 import com.example.prepitbackend.dto.UserMeasurementsDTO;
 import com.example.prepitbackend.service.bl.MealService;
-import com.example.prepitbackend.utils.CaloricCalculator;
-import com.example.prepitbackend.utils.Director;
+import com.example.prepitbackend.utils.SuggestionAlgorithm;
+import com.example.prepitbackend.utils.caloricSplitter.CaloricSplitter;
+import com.example.prepitbackend.utils.goalCalculator.GoalCalculator;
+import com.example.prepitbackend.utils.tdeeCalculator.CaloricCalculator;
+import com.example.prepitbackend.utils.tdeeCalculator.Director;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +29,9 @@ public class MealServiceRest extends BaseService {
     @Autowired
     private MealService mealService;
 
+
     @PostMapping("/generate")
     public ResponseEntity<Object> generate(@RequestBody UserMeasurementsDTO entity) {
-        //wwmealService.geAll();
-        Director.makeHarrisBenedict();
-        CaloricCalculator calculator = (CaloricCalculator) Director.getResult();
-        Double tdee = calculator.calculateTDEE(entity.getGender(), entity.getWeight(), entity.getHeight(), entity.getAge(), entity.getActivityType());
-        return renderResponse(tdee);
+        return renderResponse(mealService.generateForADay(entity));
     }
 }

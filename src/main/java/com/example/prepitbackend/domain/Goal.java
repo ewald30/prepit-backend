@@ -1,5 +1,6 @@
 package com.example.prepitbackend.domain;
 
-public class Goal {
-    
-}
+public enum Goal {
+    LOSE,
+    GAIN,
+  }

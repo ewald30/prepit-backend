@@ -19,4 +19,5 @@ public class UserMeasurementsDTO {
     private int numberOfMeals;
     private String activityType;
     private String goal;
+    private String goalTier;
 }

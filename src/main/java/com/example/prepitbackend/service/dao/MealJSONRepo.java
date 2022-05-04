@@ -5,6 +5,8 @@ import java.util.List;
 import com.example.prepitbackend.domain.Meal;
 import com.example.prepitbackend.dto.MealDTO;
 
+import org.json.simple.JSONArray;
+
 public interface MealJSONRepo {
-    public List<MealDTO> readAll();
+    public JSONArray readAllJSON();
 }
