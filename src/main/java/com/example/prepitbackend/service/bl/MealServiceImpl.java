@@ -31,14 +31,12 @@ public class MealServiceImpl implements MealService {
     public ArrayList<MealDTO> geAll() {
         // get all from the database
         
-        // get all from the JSON file
-
         // merge these two together
         ArrayList<MealDTO> meals =  mealJsonDTOAdapter.convert(mealRepo.readAllJSON());
 
         return meals;
     }
-
+    
     @Override
     public ArrayList<ArrayList<MealDTO>> generateForADay(UserMeasurementsDTO entity) {
         Director.makeHarrisBenedict();
@@ -48,7 +46,7 @@ public class MealServiceImpl implements MealService {
         GoalCalculator goalCalculator = new GoalCalculator(Goal.valueOf(entity.getGoal()), entity.getGoalTier());
         Double goal = goalCalculator.calculate(TDEE);
         
-        ArrayList<MealAlgorithmDTO> targets = CaloricSplitter.split(3, TDEE, 0.5, 0.5);
+        ArrayList<MealAlgorithmDTO> targets = CaloricSplitter.split(entity.getNumberOfMeals(), goal, 0.5, 0.5);
         SuggestionAlgorithm suggestionAlgorithm = new SuggestionAlgorithm(this.geAll());
         ArrayList<ArrayList<MealDTO>> result =  suggestionAlgorithm.runForDay(targets);
         return result;

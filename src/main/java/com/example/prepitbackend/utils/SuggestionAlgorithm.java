@@ -50,6 +50,12 @@ public class SuggestionAlgorithm {
         this.meals = meals;
     }
 
+    /**
+     * Returns a list of 3,4 or 5 recommendations for each meal 
+     * @param targets - a list containing meal targets for the generating meal plan, the algorithm will search for the 
+     *                  meals closest to these targets
+     * @return <code>ArrayList<ArrayList<MealDTO>></code> of recommendations for each meal
+     */
     public ArrayList<ArrayList<MealDTO>> runForDay(ArrayList<MealAlgorithmDTO> targets){
         ArrayList<ArrayList<MealDTO>> result = new ArrayList<ArrayList<MealDTO>>();
         for(MealAlgorithmDTO target : targets){
@@ -60,17 +66,28 @@ public class SuggestionAlgorithm {
         return result;
     }
 
+    /**
+     *  Returns a list of recommendations for one meal
+     * @param target - a target meal, used to determine recommendations closest to it
+     * @return <code>ArrayList<MealDTO></code> of recommendations for the target meal
+     */
     public ArrayList<MealDTO> runForMeal(MealAlgorithmDTO target){
         ArrayList<MealDTO> result = new ArrayList<>();
 
         //List<MockObject> arr = utils.generateNumberArray();
         Collections.shuffle(this.meals);
-        result = printKclosest(target, 3);
+        result = getKclosest(target, 3);
 
         return result;
     }
 
-    public ArrayList<MealDTO> printKclosest(MealAlgorithmDTO x, int k) {
+    /**
+     * Returns the closest k meals for a target meal
+     * @param target - representing the target used as a reference by the algorithm when searching for related meals
+     * @param k - the number of recommendations for the target meal
+     * @return <code>ArrayList<MealDTO></code> of recommendations for the target meal
+     */
+    public ArrayList<MealDTO> getKclosest(MealAlgorithmDTO target, int k) {
         ArrayList<MealDTO> result = new ArrayList<>();
 
         // Make a max heap.
@@ -87,8 +104,8 @@ public class SuggestionAlgorithm {
         int index=0;
         int nb=0;
         while(nb < k && index < this.meals.size()){
-            if(this.meals.get(index).getKcalories() <= x.getCalories()){    // make this possible to change from <= to >= based on target (losing/gaining weight)
-                pq.offer(new Pair(this.meals.get(index), (int) Math.abs(calculateDistance(this.meals.get(index), x))));
+            if(this.meals.get(index).getKcalories() <= target.getCalories()){    // make this possible to change from <= to >= based on target (losing/gaining weight)
+                pq.offer(new Pair(this.meals.get(index), (int) Math.abs(calculateDistance(this.meals.get(index), target))));
                 nb++;
             }
             index++;
@@ -97,12 +114,12 @@ public class SuggestionAlgorithm {
         // Now process remaining elements.
         for (int i = k; i < this.meals.size(); i++) {
 
-            int diff = (int) Math.abs(calculateDistance(this.meals.get(i), x));    // this differrence could be rewritten as something else
+            int diff = (int) Math.abs(calculateDistance(this.meals.get(i), target));    // this differrence could be rewritten as something else
 
             // If difference with current
             // element is more than root,
             // then ignore it.
-            if (!isAccepted(diff, this.meals.get(i), x, pq.peek().getValue()))     // can change the condition to match
+            if (!isAccepted(diff, this.meals.get(i), target, pq.peek().getValue()))     // can change the condition to match
                 continue;
 
             // Else remove root and insert
@@ -124,12 +141,26 @@ public class SuggestionAlgorithm {
         return result;
     }
 
-    static boolean isAccepted(int diff, MealDTO element, MealAlgorithmDTO target,  int pq){
-        boolean value = diff < pq && target.getCalories()>= element.getKcalories(); //&& (element.getPrice() < 40 && element.getPrice() > 35);
+    /**
+     * Checks if the candidate meal is accepted
+     * @param diff - a value used to illustrate how different the candidate and target are
+     * @param candidate - the candidate meal
+     * @param target - the target meal
+     * @param pq -  
+     * @return <code>true</code> if the candidate is accepted, <code>false</code> otherwise
+     */
+    static boolean isAccepted(int diff, MealDTO candidate, MealAlgorithmDTO target,  int pq){
+        boolean value = diff < pq && target.getCalories()>= candidate.getKcalories(); //&& (element.getPrice() < 40 && element.getPrice() > 35);
         return value;
 
     }
 
+    /**
+     * Calculates the distance used to illustrate how different the candidate and target meals are
+     * @param candidate - the candidate meal
+     * @param target - the target meal
+     * @return <code>double</code> the difference between candidate's and target's weight values
+     */
     static double calculateDistance(MealDTO candidate, MealAlgorithmDTO target){
         int candidateWeight = WeightValueCalculator.calculate(candidate.getKcalories(), Integer.valueOf(candidate.getPriceScore()), Integer.valueOf(candidate.getTimeScore()), 0.5, 0.5);
         return Math.abs(target.getWeight() - candidateWeight);

@@ -29,7 +29,11 @@ public class MealServiceRest extends BaseService {
     @Autowired
     private MealService mealService;
 
-
+    /**
+     * Returns a suggested meal plan fot the given user details
+     * @param entity - user measurements and preferences
+     * @return a list containing the meals to eat for the given measurements and preferences
+     */
     @PostMapping("/generate")
     public ResponseEntity<Object> generate(@RequestBody UserMeasurementsDTO entity) {
         return renderResponse(mealService.generateForADay(entity));
