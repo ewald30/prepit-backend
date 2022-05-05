@@ -32,14 +32,9 @@ public class CaloricSplitter {
                 break;
             case "4":
                 mealSplitter = new FourMealsSplitter();
-                MealAlgorithmDTO snack = createMeal("snack", mealSplitter.getSnack(TDEE), priceScorePercent, timeScorePercent);
-                meals.add(snack);
                 break;
             case "5":
-                MealAlgorithmDTO snack1 = createMeal("snack", mealSplitter.getSnack(TDEE), priceScorePercent, timeScorePercent);
-                MealAlgorithmDTO snack2 = createMeal("snack", mealSplitter.getSnack(TDEE), priceScorePercent, timeScorePercent);
-                meals.add(snack1);
-                meals.add(snack2);
+                mealSplitter = new FiveMealsSplitter();
                 break;
         }
 
@@ -50,6 +45,16 @@ public class CaloricSplitter {
         meals.add(breakfast);
         meals.add(lunch);
         meals.add(dinner);
+
+        if (numberOfMeals == 4){
+            MealAlgorithmDTO snack1 = createMeal("snack", mealSplitter.getSnack(TDEE), priceScorePercent, timeScorePercent);
+            meals.add(snack1);
+        } else if (numberOfMeals == 5){
+            MealAlgorithmDTO snack1 = createMeal("snack", mealSplitter.getSnack(TDEE), priceScorePercent, timeScorePercent);
+            MealAlgorithmDTO snack2 = createMeal("snack", mealSplitter.getSnack(TDEE), priceScorePercent, timeScorePercent);
+            meals.add(snack1);
+            meals.add(snack2);
+        }
         
         return meals;
 

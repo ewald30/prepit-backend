@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import com.example.prepitbackend.auth.JWTTokenHelper;
 import com.example.prepitbackend.dto.UserRegisterDTO;
+import com.example.prepitbackend.dto.UserTokenDTO;
 import com.example.prepitbackend.registration.RegistrationCompleteEvent;
 import com.example.prepitbackend.domain.AuthRequest;
 import com.example.prepitbackend.domain.User;
