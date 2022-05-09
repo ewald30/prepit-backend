@@ -6,6 +6,7 @@ import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.service.bl.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ public class RegistrationListener implements ApplicationListener<RegistrationCom
  
     @Autowired
     private JavaMailSender mailSender;
+
+    @Value("${application.verification.url}")
+    private String applicationUrl;
 
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
@@ -45,7 +49,7 @@ public class RegistrationListener implements ApplicationListener<RegistrationCom
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + "\r\n" + "http://localhost:8080" + confirmationUrl);
+        email.setText(message + "\r\n" + applicationUrl+ confirmationUrl);
         mailSender.send(email);
     }
     
