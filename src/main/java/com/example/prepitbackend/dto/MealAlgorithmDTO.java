@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class MealAlgorithmDTO {
-    private int weight;  
+    private Double weight;  
     private String category;
     private int calories;
 
