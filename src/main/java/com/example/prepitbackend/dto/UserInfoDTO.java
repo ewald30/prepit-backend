@@ -21,8 +21,8 @@ public class UserInfoDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private int weight;
-    private int height;
+    private Double weight;
+    private Double height;
     private int age;
     private String activityType;
     private String gender;

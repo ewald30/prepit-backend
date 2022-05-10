@@ -2,6 +2,7 @@ package com.example.prepitbackend.service.bl;
 
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
+import com.example.prepitbackend.dto.UserMeasurementsDTO;
 import com.example.prepitbackend.dto.UserRegisterDTO;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,8 @@ public interface UserService extends UserDetailsService{
     public User loadUserByUsername(String username);
 
     public User registerNewUser(UserRegisterDTO userDto);
+
+    public void updateMeasurements(UserMeasurementsDTO userDto);
 
     User getUser(String verificationToken);
 

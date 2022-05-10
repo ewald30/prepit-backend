@@ -6,6 +6,7 @@ import com.example.prepitbackend.domain.Goal;
 import com.example.prepitbackend.dto.MealAlgorithmDTO;
 import com.example.prepitbackend.dto.UserMeasurementsDTO;
 import com.example.prepitbackend.service.bl.MealService;
+import com.example.prepitbackend.service.bl.UserService;
 import com.example.prepitbackend.utils.SuggestionAlgorithm;
 import com.example.prepitbackend.utils.caloricSplitter.CaloricSplitter;
 import com.example.prepitbackend.utils.goalCalculator.GoalCalculator;
@@ -29,6 +30,9 @@ public class MealServiceRest extends BaseService {
     @Autowired
     private MealService mealService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * Returns a suggested meal plan fot the given user details
      * @param entity - user measurements and preferences
@@ -36,6 +40,8 @@ public class MealServiceRest extends BaseService {
      */
     @PostMapping("/generate")
     public ResponseEntity<Object> generate(@RequestBody UserMeasurementsDTO entity) {
+        if(entity.getId() > 0)
+            userService.updateMeasurements(entity);
         return renderResponse(mealService.generateForADay(entity));
     }
 }

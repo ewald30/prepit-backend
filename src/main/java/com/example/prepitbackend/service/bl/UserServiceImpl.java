@@ -1,7 +1,10 @@
 package com.example.prepitbackend.service.bl;
 
+import java.util.Optional;
+
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
+import com.example.prepitbackend.dto.UserMeasurementsDTO;
 import com.example.prepitbackend.dto.UserRegisterDTO;
 import com.example.prepitbackend.service.dao.UserRepo;
 import com.example.prepitbackend.service.dao.VerificationTokenRepo;
@@ -82,6 +85,19 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     public void createVerificationToken(User user, String token) {
         VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
+    }
+
+    @Override
+    public void updateMeasurements(UserMeasurementsDTO userDto) {
+        Optional<User> userById = repository.findById(userDto.getId());
+        if (userById.isPresent()) {
+            User user = userById.get();
+            user.setAge(userDto.getAge());
+            user.setGender(Character.toString(userDto.getGender()));
+            user.setHeight(userDto.getHeight());
+            user.setWeight(userDto.getWeight());
+            repository.save(user);
+        }
     }
 
 }

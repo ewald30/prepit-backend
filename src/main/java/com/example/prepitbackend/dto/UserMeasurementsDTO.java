@@ -12,6 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserMeasurementsDTO {
+    private Long id;
     private Double height;
     private Double weight;
     private int age;

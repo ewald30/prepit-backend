@@ -41,7 +41,7 @@ public class HarrisBenedictCalculatorBuilder implements CaloricCalculatorBuilder
 
     @Override
     public void setFemaleWeightMultiplier() {
-        calculator.setFemaleAgeMultiplier(9.5634);
+        calculator.setFemaleWeightMultiplier(9.5634);
         
     }
 
