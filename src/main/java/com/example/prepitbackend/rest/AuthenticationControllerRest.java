@@ -48,7 +48,7 @@ public class AuthenticationControllerRest extends BaseService{
     private UserService userService;
 
     @Autowired
-    ApplicationEventPublisher eventPublisher;
+    private ApplicationEventPublisher eventPublisher;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody AuthRequest authRequest) throws InvalidKeySpecException, NoSuchAlgorithmException{
