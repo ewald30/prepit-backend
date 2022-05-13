@@ -63,7 +63,7 @@ public class JWTTokenHelper {
         return date;
     }
 
-    public boolean isTokenExpired(String token){
+    private boolean isTokenExpired(String token){
         Date expireDate = this.getExpirationDateFromToken(token);
         return expireDate.before(new Date());
     }
@@ -79,7 +79,7 @@ public class JWTTokenHelper {
         return date;
     }
 
-    public String getAuthHeaderFromRequest(HttpServletRequest request) {
+    private String getAuthHeaderFromRequest(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 
