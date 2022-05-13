@@ -2,8 +2,8 @@ package com.example.prepitbackend.rest;
 
 import java.security.Principal;
 
-import com.example.prepitbackend.dto.UserInfoDTO;
 import com.example.prepitbackend.domain.User;
+import com.example.prepitbackend.dto.entities.UserInfoDTO;
 import com.example.prepitbackend.service.bl.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
-public class UserRestService extends BaseService {
+public class UserRestController extends BaseService {
 
     @Autowired 
     UserService userService;

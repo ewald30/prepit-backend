@@ -22,20 +22,19 @@ public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String uniqId;
     private String title;
     private String description;
     private String instructions;
     private String nutritionInfo;
     private String ingredients;
-    private int kcalories;
+    private int calories;
     private String type;
-    private int serving;
+    private String serving;
     private String image;
     private String url;
-    private int priceScore;
-    private int timeScore;
-    private String prepTime;
+    private String priceScore;
+    private String timeScore;
+    private String preparationTime;
     private String cookTime;
     private String totalTime;
     private String totalRatings;
@@ -44,7 +43,5 @@ public class Meal {
     private String source;
     private String crawledAt;
     private String publishedDate;
-
-
 
 }

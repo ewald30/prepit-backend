@@ -1,4 +1,4 @@
-package com.example.prepitbackend.dto;
+package com.example.prepitbackend.dto.entities;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

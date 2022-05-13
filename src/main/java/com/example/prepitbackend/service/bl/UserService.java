@@ -2,14 +2,16 @@ package com.example.prepitbackend.service.bl;
 
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
-import com.example.prepitbackend.dto.UserMeasurementsDTO;
-import com.example.prepitbackend.dto.UserRegisterDTO;
+import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
+import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService{
     
     public User getUserByUsername(String username);
+
+    public User getUserById(Long id);
 
     public User loadUserByUsername(String username);
 

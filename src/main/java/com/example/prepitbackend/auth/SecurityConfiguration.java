@@ -100,6 +100,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/verify").permitAll()
                 .antMatchers("/user/info").authenticated()
                 .antMatchers("/meal/generate").permitAll()
+                .antMatchers("/meal/save").permitAll()  // remove
+                .antMatchers("/collection/insert").permitAll()   //remove
+                .antMatchers("/collection/findAll").permitAll()  //remove
+                .antMatchers("/collection/findByUser").permitAll()  //remove
                 .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()

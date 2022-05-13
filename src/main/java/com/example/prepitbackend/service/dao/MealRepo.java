@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.prepitbackend.domain.Meal;
-import com.example.prepitbackend.dto.MealDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
 
 import org.json.simple.JSONArray;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface MealRepo extends JpaRepository<Meal, Long>, MealJSONRepo {
     JSONArray readAllJSON();
+    Meal save(Meal meal);
 }

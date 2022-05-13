@@ -1,4 +1,4 @@
-package com.example.prepitbackend.dto;
+package com.example.prepitbackend.dto.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

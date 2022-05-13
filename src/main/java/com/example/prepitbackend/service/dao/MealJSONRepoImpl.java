@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.prepitbackend.domain.Meal;
-import com.example.prepitbackend.dto.MealDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
 import com.example.prepitbackend.utils.MealJsonDTOAdapter;
 
 import org.json.simple.JSONArray;

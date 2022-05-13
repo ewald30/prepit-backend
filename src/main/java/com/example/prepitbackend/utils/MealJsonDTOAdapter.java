@@ -2,7 +2,7 @@ package com.example.prepitbackend.utils;
 
 import java.util.ArrayList;
 
-import com.example.prepitbackend.dto.MealDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

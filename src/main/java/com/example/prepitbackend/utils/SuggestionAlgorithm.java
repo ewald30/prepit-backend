@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 import com.example.prepitbackend.domain.Meal;
-import com.example.prepitbackend.dto.MealAlgorithmDTO;
-import com.example.prepitbackend.dto.MealDTO;
+import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
 import com.example.prepitbackend.service.bl.MealService;
 
 import org.springframework.beans.factory.annotation.Autowired;

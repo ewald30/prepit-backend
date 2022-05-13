@@ -2,7 +2,7 @@ package com.example.prepitbackend.utils.caloricSplitter;
 
 import java.util.ArrayList;
 
-import com.example.prepitbackend.dto.MealAlgorithmDTO;
+import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -3,8 +3,11 @@ package com.example.prepitbackend.rest;
 import java.util.ArrayList;
 
 import com.example.prepitbackend.domain.Goal;
-import com.example.prepitbackend.dto.MealAlgorithmDTO;
-import com.example.prepitbackend.dto.UserMeasurementsDTO;
+import com.example.prepitbackend.domain.Meal;
+import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
+import com.example.prepitbackend.dto.entities.MealSaveDTO;
+import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
+import com.example.prepitbackend.dto.mappers.MealMapper;
 import com.example.prepitbackend.service.bl.MealService;
 import com.example.prepitbackend.service.bl.UserService;
 import com.example.prepitbackend.utils.SuggestionAlgorithm;
@@ -25,13 +28,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/meal")
 @CrossOrigin
-public class MealServiceRest extends BaseService {
+public class MealRestController extends BaseService {
     
     @Autowired
     private MealService mealService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MealMapper mapper;
 
     /**
      * Returns a suggested meal plan fot the given user details
@@ -43,5 +49,11 @@ public class MealServiceRest extends BaseService {
         if(entity.getId() > 0)
             userService.updateMeasurements(entity);
         return renderResponse(mealService.generateForADay(entity));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Object> save(@RequestBody MealSaveDTO mealDTO){
+        Meal meal = mapper.toMeal(mealDTO);
+        return renderResponse(mealService.save(meal));
     }
 }
