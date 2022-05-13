@@ -97,7 +97,7 @@ public class AuthenticationControllerRest extends BaseService{
 
         user.setEnabled(true); 
         userService.saveRegisteredUser(user); 
-        return renderResponse("Success!");
+        return renderResponse("Success! \n Please go back and login!");
     }
     
 }
