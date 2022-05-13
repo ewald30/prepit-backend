@@ -11,32 +11,22 @@ import lombok.Setter;
 @Setter
 public class GoalCalculator {
     
-    private Goal goal;
     private String goalTier;
-    private GoalTierCalculator goalTierCalculator;
+    private CalorieGoalCalculator goalCalorieCalculator;
 
     private static final String FIRST_GOAL_TIER = "0.25";
     private static final String SECOND_GOAL_TIER = "0.5";
 
     private static final int MIN_RANDOMIZE_VALUE = -10;
-    private static final int MAX_RANDOMIZE_VALUE = -10;
+    private static final int MAX_RANDOMIZE_VALUE = 10;
 
     private static final int FIRST_GOAL_TIER_PERCENTAGE = 11;
     private static final int SECOND_GOAL_TIER_PERCENTAGE = 22;
 
 
-    public GoalCalculator(Goal goal, String goalTier) {
+    public GoalCalculator(CalorieGoalCalculator goalCalculator, String goalTier) {
         this.goalTier = goalTier;
-        this.goal = goal;
-
-        switch (goal) {
-            case LOSE:
-                goalTierCalculator = new WeightLossCalculator();
-                break;
-            case GAIN:
-                goalTierCalculator = new WeightGainCalculator();
-                break;
-        }
+        this.goalCalorieCalculator = goalCalculator;
 
     }
 
@@ -47,7 +37,7 @@ public class GoalCalculator {
      */
     public Double calculate(Double TDEE){
         int percentage = this.calculatePercentage();
-        Double calories = this.goalTierCalculator.calculateCalories(percentage, TDEE);
+        Double calories = this.goalCalorieCalculator.calculateCalories(percentage, TDEE);
         return this.randomize(calories);
     }
 

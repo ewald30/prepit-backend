@@ -45,7 +45,7 @@ class Pair
 
 public class SuggestionAlgorithm {
 
-    ArrayList<MealDTO> meals;
+    private ArrayList<MealDTO> meals;
     public static Double eps = 0.5;
 
     public SuggestionAlgorithm(ArrayList<MealDTO> meals){
@@ -89,7 +89,7 @@ public class SuggestionAlgorithm {
      * @param k - the number of recommendations for the target meal
      * @return <code>ArrayList<MealDTO></code> of recommendations for the target meal
      */
-    public ArrayList<MealDTO> getKclosest(MealAlgorithmDTO target, int k) {
+    private ArrayList<MealDTO> getKclosest(MealAlgorithmDTO target, int k) {
         ArrayList<MealDTO> result = new ArrayList<>();
 
         // Make a max heap.
@@ -159,7 +159,7 @@ public class SuggestionAlgorithm {
      * @param pq -  
      * @return <code>true</code> if the candidate is accepted, <code>false</code> otherwise
      */
-    static boolean isAccepted(Double diff, MealDTO candidate, MealAlgorithmDTO target,  Double pq){
+    private static boolean isAccepted(Double diff, MealDTO candidate, MealAlgorithmDTO target,  Double pq){
         if (diff > pq || diff < eps){
             return false;
         }
@@ -172,7 +172,7 @@ public class SuggestionAlgorithm {
 
     }
 
-    static boolean getChance(){
+    private static boolean getChance(){
         Random random = new Random();
         return random.nextBoolean();
     }
@@ -183,7 +183,7 @@ public class SuggestionAlgorithm {
      * @param target - the target meal
      * @return <code>double</code> the difference between candidate's and target's weight values
      */
-    static double calculateDistance(MealDTO candidate, MealAlgorithmDTO target){
+    private static double calculateDistance(MealDTO candidate, MealAlgorithmDTO target){
         Double candidateWeight = WeightValueCalculator.calculate(candidate.getKcalories(), Integer.valueOf(candidate.getPriceScore()), Integer.valueOf(candidate.getTimeScore()), 0.5, 0.5);
         return Math.abs(target.getWeight() - candidateWeight);
     }

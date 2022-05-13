@@ -3,7 +3,7 @@ package com.example.prepitbackend.utils.goalCalculator;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class WeightLossCalculator implements GoalTierCalculator{
+public class WeightLossCalculator implements CalorieGoalCalculator{
 
     @Override
     public Double calculateCalories(int percentage, Double TDEE) {

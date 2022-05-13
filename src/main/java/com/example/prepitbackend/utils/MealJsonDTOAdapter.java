@@ -8,9 +8,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
+/**
+ *  Adapter class used by the MealService class in order to feed the suggestion algorithm
+ *  objects of type <code>MealDTO</code> 
+ * 
+ *  This class with MealService and MealRepo form the Adapter design pattern
+ */
 @Component
 public class MealJsonDTOAdapter {
 
+    /**
+     * Public method used by the <code>MealService</code> to convert data from JSON to <code>MealDTO</code> objects
+     * @param jsonArray - array of recipes stored as JSON objects
+     * @return array of <code>MealDTO</code> objects
+     */
     public ArrayList<MealDTO> convert(JSONArray jsonArray){
         ArrayList<MealDTO> meals = new ArrayList<MealDTO>();
 
@@ -21,7 +32,12 @@ public class MealJsonDTOAdapter {
         return meals;
     }
 
-    public MealDTO createObject(JSONObject object){
+    /**
+     * Used to create a <code>MealDTO</code> object from a JSON object
+     * @param object - a recipe stored as a JSON object
+     * @return <code>MealDTO</code> object converted from JSON
+     */
+    private MealDTO createObject(JSONObject object){
         MealDTO mealDTO = new MealDTO();
 
         mealDTO.setUniqId((String) object.get("uniq_id"));
@@ -50,6 +66,12 @@ public class MealJsonDTOAdapter {
         return mealDTO;
     }
 
+    /**
+     * Used to get the number of calories from a JSON object, since the calories is only a
+     * part of the attribute "nutritions_info" of the object
+     * @param object JSON object to get number of calories from
+     * @return <code>int</code> representing the number of calories of the recipe
+     */
     private int getCalories(JSONObject object){
         String nutritions_info = (String) object.get("nutritions_info");
         String[] info_delimited = nutritions_info.split(" \\| ");

@@ -3,7 +3,7 @@ package com.example.prepitbackend.utils.goalCalculator;
 /**
  *  Implementation of the bridge design pattern in relation with (Gain/Lose)TierCalculator and GoalCalculator
  */
-public interface GoalTierCalculator {
+public interface CalorieGoalCalculator {
 
     /**
      * Calculates the calories for a given goal and a given TDEE

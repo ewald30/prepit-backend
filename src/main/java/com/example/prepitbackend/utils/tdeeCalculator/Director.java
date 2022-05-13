@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 public class Director {
 
-    static CaloricCalculatorBuilder builder;
+    private static CaloricCalculatorBuilder builder;
 
     public static void makeHarrisBenedict(){
         builder = new HarrisBenedictCalculatorBuilder();
