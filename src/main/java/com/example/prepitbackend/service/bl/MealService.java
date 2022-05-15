@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.prepitbackend.domain.Meal;
-import com.example.prepitbackend.dto.MealDTO;
-import com.example.prepitbackend.dto.UserMeasurementsDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
+import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 
 public interface MealService {
-    ArrayList<MealDTO> geAll();
-    ArrayList<ArrayList<MealDTO>> generateForADay(UserMeasurementsDTO entity);
+    public ArrayList<MealDTO> geAll();
+    public ArrayList<ArrayList<MealDTO>> generateForADay(UserMeasurementsDTO entity);
+    public Meal save(Meal meal);
+    public Meal findByUniqId(String uniqId);
 }

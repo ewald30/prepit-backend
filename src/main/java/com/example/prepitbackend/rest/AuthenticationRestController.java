@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.prepitbackend.auth.JWTTokenHelper;
-import com.example.prepitbackend.dto.UserRegisterDTO;
 import com.example.prepitbackend.registration.RegistrationCompleteEvent;
 import com.example.prepitbackend.domain.AuthRequest;
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
+import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 import com.example.prepitbackend.service.bl.UserService;
 import com.example.prepitbackend.validation.exceptions.UserAlreadyExistException;
 
@@ -36,7 +36,7 @@ import org.springframework.web.context.request.WebRequest;
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin
-public class AuthenticationControllerRest extends BaseService{
+public class AuthenticationRestController extends BaseService{
 
     @Autowired
     private AuthenticationManager authenticationManager;

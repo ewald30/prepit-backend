@@ -3,8 +3,10 @@ package com.example.prepitbackend.service.bl;
 import java.util.ArrayList;
 
 import com.example.prepitbackend.domain.Goal;
-import com.example.prepitbackend.dto.MealDTO;
-import com.example.prepitbackend.dto.UserMeasurementsDTO;
+import com.example.prepitbackend.domain.Meal;
+import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
+import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.service.dao.MealRepo;
 import com.example.prepitbackend.utils.MealJsonDTOAdapter;
 import com.example.prepitbackend.utils.SuggestionAlgorithm;
@@ -15,8 +17,6 @@ import com.example.prepitbackend.utils.goalCalculator.WeightGainCalculator;
 import com.example.prepitbackend.utils.goalCalculator.WeightLossCalculator;
 import com.example.prepitbackend.utils.tdeeCalculator.CaloricCalculator;
 import com.example.prepitbackend.utils.tdeeCalculator.Director;
-import com.example.prepitbackend.dto.MealAlgorithmDTO;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +70,16 @@ public class MealServiceImpl implements MealService {
         SuggestionAlgorithm suggestionAlgorithm = new SuggestionAlgorithm(this.geAll());
         ArrayList<ArrayList<MealDTO>> result =  suggestionAlgorithm.runForDay(targets);
         return result;
+    }
+
+    @Override
+    public Meal save(Meal meal) {
+        return mealRepo.save(meal);
+    }
+
+    @Override
+    public Meal findByUniqId(String uniqId) {
+        return mealRepo.findByUniqId(uniqId);
     }
 
     

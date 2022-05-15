@@ -1,4 +1,4 @@
-package com.example.prepitbackend.dto;
+package com.example.prepitbackend.dto.entities;
 
 import java.util.List;
 

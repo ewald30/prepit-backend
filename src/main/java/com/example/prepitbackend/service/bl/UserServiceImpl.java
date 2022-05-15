@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
-import com.example.prepitbackend.dto.UserMeasurementsDTO;
-import com.example.prepitbackend.dto.UserRegisterDTO;
+import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
+import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 import com.example.prepitbackend.service.dao.UserRepo;
 import com.example.prepitbackend.service.dao.VerificationTokenRepo;
 import com.example.prepitbackend.validation.exceptions.UserAlreadyExistException;
@@ -98,6 +98,16 @@ public class UserServiceImpl implements UserService, UserDetailsService{
             user.setWeight(userDto.getWeight());
             repository.save(user);
         }
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        Optional<User> userById = repository.findById(id);
+        if (userById.isPresent()) {
+            User user = userById.get();
+            return user;
+        }
+        return null;
     }
 
 }

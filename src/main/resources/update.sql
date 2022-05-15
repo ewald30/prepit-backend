@@ -47,3 +47,71 @@ CREATE TABLE `verification_token` (
   `token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
+
+-- create recipe table
+CREATE TABLE `prepit_test`.`meal` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(500) NULL,
+  `description` VARCHAR(2000) NULL,
+  `instructions` VARCHAR(2000) NULL,
+  `ingredients` VARCHAR(2000) NULL,
+  `calories` INT NULL,
+  `type` VARCHAR(45) NULL,
+  `serving` VARCHAR(45) NULL,
+  `image` VARCHAR(500) NULL,
+  `url` VARCHAR(1000) NULL,
+  `price_score` VARCHAR(5) NULL,
+  `time_score` VARCHAR(5) NULL,
+  `preparation_time` VARCHAR(45) NULL,
+  `cook_time` VARCHAR(45) NULL,
+  `total_time` VARCHAR(45) NULL,
+  `total_ratings` VARCHAR(45) NULL,
+  `keywords` VARCHAR(1000) NULL,
+  `author` VARCHAR(45) NULL,
+  `source` VARCHAR(45) NULL,
+  `crawled_at` VARCHAR(45) NULL,
+  `published_date` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+ALTER TABLE `prepit_test`.`meal` 
+ADD COLUMN `nutrition_info` VARCHAR(1000) NULL AFTER `published_date`;
+
+
+
+  -- create collection tables
+  CREATE TABLE `prepit_test`.`collection` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(500) NULL,
+  `description` VARCHAR(2000) NULL,
+  `user_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `prepit_test`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+-- create bridge between collection and meal,
+-- REMOVE Collection_Recipe and run this query!!!!
+CREATE TABLE `prepit_test`.`collection_meal` (
+  `collection_id` INT NOT NULL,
+  `meal_id` INT NOT NULL,
+  PRIMARY KEY (`collection_id`, `meal_id`),
+  INDEX `collection_id_idx` (`collection_id` ASC) VISIBLE,
+  INDEX `meal_id_idx` (`meal_id` ASC) VISIBLE,
+  CONSTRAINT `collection_id`
+    FOREIGN KEY (`collection_id`)
+    REFERENCES `prepit_test`.`collection` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `meal_id`
+    FOREIGN KEY (`meal_id`)
+    REFERENCES `prepit_test`.`meal` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+-- 14.05.2022 add uniq_id column for meal
+ALTER TABLE `prepit_test`.`meal` 
+ADD COLUMN `uniq_id` VARCHAR(45) NULL AFTER `nutrition_info`;

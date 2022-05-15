@@ -3,7 +3,7 @@ package com.example.prepitbackend.validation.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.example.prepitbackend.dto.UserRegisterDTO;
+import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 import com.example.prepitbackend.validation.annotations.ValidPasswordConfirmation;
 
 public class PasswordConfirmationValidator implements ConstraintValidator<ValidPasswordConfirmation, Object> {
