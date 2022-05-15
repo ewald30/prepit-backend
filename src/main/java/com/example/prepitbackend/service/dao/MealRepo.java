@@ -15,4 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MealRepo extends JpaRepository<Meal, Long>, MealJSONRepo {
     JSONArray readAllJSON();
     Meal save(Meal meal);
+    Meal findByUniqId(String uniqId);
 }

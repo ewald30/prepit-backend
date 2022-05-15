@@ -1,9 +1,12 @@
 package com.example.prepitbackend.domain;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +24,7 @@ public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String title;
     private String description;
     private String instructions;
@@ -43,5 +46,18 @@ public class Meal {
     private String source;
     private String crawledAt;
     private String publishedDate;
+
+    /**
+     * When a meal is inserted into a collection we receive a MealDTO without it's id since 
+     *      it isn't available on the front-end. This means that we have to search for the meal in database with something else: uniq_id
+     * This will be stored at saveMeal and will ensure that no meal duplication is done
+     */
+    private String uniqId;
+
+
+    // Many to many relationship with Collection, a meal belongs to certain collection
+    // containedMeals is a field in Collection object that maps the relationship
+    @ManyToMany(mappedBy = "containedMeals")
+    Set<Collection> belongsTo;
 
 }

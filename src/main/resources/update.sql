@@ -93,21 +93,25 @@ ADD COLUMN `nutrition_info` VARCHAR(1000) NULL AFTER `published_date`;
     ON UPDATE NO ACTION);
 
 
--- create bridge between collection and recipe
-CREATE TABLE `prepit_test`.`collection_recipe` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `collection_id` INT NULL,
-  `recipe_id` INT NULL,
-  PRIMARY KEY (`id`),
+-- create bridge between collection and meal,
+-- REMOVE Collection_Recipe and run this query!!!!
+CREATE TABLE `prepit_test`.`collection_meal` (
+  `collection_id` INT NOT NULL,
+  `meal_id` INT NOT NULL,
+  PRIMARY KEY (`collection_id`, `meal_id`),
   INDEX `collection_id_idx` (`collection_id` ASC) VISIBLE,
-  INDEX `recipe_id_idx` (`recipe_id` ASC) VISIBLE,
+  INDEX `meal_id_idx` (`meal_id` ASC) VISIBLE,
   CONSTRAINT `collection_id`
     FOREIGN KEY (`collection_id`)
     REFERENCES `prepit_test`.`collection` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `recipe_id`
-    FOREIGN KEY (`recipe_id`)
-    REFERENCES `prepit_test`.`recipe` (`id`)
+  CONSTRAINT `meal_id`
+    FOREIGN KEY (`meal_id`)
+    REFERENCES `prepit_test`.`meal` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+-- 14.05.2022 add uniq_id column for meal
+ALTER TABLE `prepit_test`.`meal` 
+ADD COLUMN `uniq_id` VARCHAR(45) NULL AFTER `nutrition_info`;

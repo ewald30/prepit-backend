@@ -11,4 +11,5 @@ public interface MealService {
     public ArrayList<MealDTO> geAll();
     public ArrayList<ArrayList<MealDTO>> generateForADay(UserMeasurementsDTO entity);
     public Meal save(Meal meal);
+    public Meal findByUniqId(String uniqId);
 }

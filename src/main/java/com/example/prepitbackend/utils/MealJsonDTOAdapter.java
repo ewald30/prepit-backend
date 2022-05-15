@@ -40,7 +40,7 @@ public class MealJsonDTOAdapter {
     private MealDTO createObject(JSONObject object){
         MealDTO mealDTO = new MealDTO();
 
-        mealDTO.setUniqId((String) object.get("uniq_id"));
+        mealDTO.setUniq_id((String) object.get("uniq_id"));
         mealDTO.setTitle((String) object.get("title"));
         mealDTO.setDescription((String) object.get("description"));
         mealDTO.setInstructions((String) object.get("instructions"));
@@ -48,19 +48,19 @@ public class MealJsonDTOAdapter {
         mealDTO.setImage((String) object.get("image"));
         mealDTO.setUrl((String) object.get("url"));
         mealDTO.setAuthor((String) object.get("author"));
-        mealDTO.setPrepTime((String) object.get("prep_time"));
-        mealDTO.setCookTime((String) object.get("cook_time"));
-        mealDTO.setTotalTime((String) object.get("total_time"));
+        mealDTO.setPrep_time((String) object.get("prep_time"));
+        mealDTO.setCook_time((String) object.get("cook_time"));
+        mealDTO.setTotal_time((String) object.get("total_time"));
         mealDTO.setKeywords((String) object.get("keywords"));
         mealDTO.setAuthor((String) object.get("author"));
-        mealDTO.setCrawledAt((String) object.get("crawled_at"));
-        mealDTO.setPublishedDate((String) object.get("published_at"));
-        mealDTO.setNutritionInfo((String) object.get("nutritions_info"));
-        mealDTO.setTotalRatings((String) object.get("total_ratings"));
+        mealDTO.setCrawled_at((String) object.get("crawled_at"));
+        mealDTO.setPublished_date((String) object.get("published_at"));
+        mealDTO.setNutritions_info((String) object.get("nutritions_info"));
+        mealDTO.setTotal_ratings((String) object.get("total_ratings"));
         mealDTO.setType((String) object.get("type"));
-        mealDTO.setKcalories(getCalories(object));
-        mealDTO.setPriceScore((String) object.get("price_score"));
-        mealDTO.setTimeScore((String) object.get("time_score"));
+        mealDTO.setCalories(getCalories(object));
+        mealDTO.setPrice_score((String) object.get("price_score"));
+        mealDTO.setTime_score((String) object.get("time_score"));
         mealDTO.setServing(String.valueOf(object.get("serving")));
 
         return mealDTO;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.example.prepitbackend.domain.Goal;
 import com.example.prepitbackend.domain.Meal;
 import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
-import com.example.prepitbackend.dto.entities.MealSaveDTO;
+import com.example.prepitbackend.dto.entities.MealDTO;
 import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.dto.mappers.MealMapper;
 import com.example.prepitbackend.service.bl.MealService;
@@ -52,7 +52,7 @@ public class MealRestController extends BaseService {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody MealSaveDTO mealDTO){
+    public ResponseEntity<Object> save(@RequestBody MealDTO mealDTO){
         Meal meal = mapper.toMeal(mealDTO);
         return renderResponse(mealService.save(meal));
     }

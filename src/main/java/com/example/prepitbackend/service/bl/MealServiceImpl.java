@@ -77,6 +77,11 @@ public class MealServiceImpl implements MealService {
         return mealRepo.save(meal);
     }
 
+    @Override
+    public Meal findByUniqId(String uniqId) {
+        return mealRepo.findByUniqId(uniqId);
+    }
+
     
     
 }
