@@ -21,4 +21,8 @@ public class UserMeasurementsDTO {
     private String activityType;
     private String goal;
     private String goalTier;
+    private Double priceMultiplier;
+    private Double timeMultiplier;
+    private Double accuracyMultiplier;
+
 }

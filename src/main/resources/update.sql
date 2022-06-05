@@ -115,3 +115,11 @@ CREATE TABLE `prepit_test`.`collection_meal` (
 -- 14.05.2022 add uniq_id column for meal
 ALTER TABLE `prepit_test`.`meal` 
 ADD COLUMN `uniq_id` VARCHAR(45) NULL AFTER `nutrition_info`;
+
+
+
+-- 05.06.2022 add multipliers
+ALTER TABLE `prepit_test`.`user` 
+ADD COLUMN `price_multiplier` DOUBLE NULL DEFAULT 1.0 AFTER `usercol`,
+ADD COLUMN `time_multiplier` DOUBLE NULL DEFAULT 1.0 AFTER `price_multiplier`,
+ADD COLUMN `accuracy_multiplier` DOUBLE NULL DEFAULT 5.0 AFTER `time_multiplier`;

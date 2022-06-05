@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import com.example.prepitbackend.domain.Goal;
 import com.example.prepitbackend.domain.Meal;
 import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
 import com.example.prepitbackend.dto.entities.MealDTO;
@@ -15,41 +16,28 @@ import com.example.prepitbackend.service.bl.MealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-class Pair
-{
-    MealDTO key;
-    Double value;
+import lombok.AllArgsConstructor;
 
-    public Pair(MealDTO key, Double value)
-    {
-        this.key = key;
-        this.value = value;
-    }
-    public MealDTO getKey()
-    {
-        return key;
-    }
-    public void setKey(MealDTO key)
-    {
-        this.key = key;
-    }
-    public Double getValue()
-    {
-        return value;
-    }
-    public void setValue(Double value)
-    {
-        this.value = value;
-    }
-}
 
+@AllArgsConstructor
 public class SuggestionAlgorithm {
 
     private ArrayList<MealDTO> meals;
-    public static Double eps = 0.5;
+    private int numberOfSuggestions = 3;
+    private String goal;
+    private Double eps = 0.8;
 
-    public SuggestionAlgorithm(ArrayList<MealDTO> meals){
+    private Double priceMultiplier;
+    private Double timeMultiplier;
+    private Double caloriesMultiplier;
+
+
+    public SuggestionAlgorithm(ArrayList<MealDTO> meals, String goal, Double priceMultiplier, Double timeMultiplier, Double caloriesMultiplier){
         this.meals = meals;
+        this.goal = goal;
+        this.priceMultiplier = priceMultiplier;
+        this.timeMultiplier = timeMultiplier;
+        this.caloriesMultiplier = caloriesMultiplier;
     }
 
     /**
@@ -69,7 +57,7 @@ public class SuggestionAlgorithm {
     }
 
     /**
-     *  Returns a list of recommendations for one meal
+     * Returns a list of recommendations for one meal
      * @param target - a target meal, used to determine recommendations closest to it
      * @return <code>ArrayList<MealDTO></code> of recommendations for the target meal
      */
@@ -78,7 +66,7 @@ public class SuggestionAlgorithm {
 
         //List<MockObject> arr = utils.generateNumberArray();
         Collections.shuffle(this.meals);
-        result = getKclosest(target, 3);
+        result = getKclosest(target, numberOfSuggestions);
 
         return result;
     }
@@ -93,23 +81,23 @@ public class SuggestionAlgorithm {
         ArrayList<MealDTO> result = new ArrayList<>();
 
         // Make a max heap.
-        PriorityQueue<Pair> pq = new PriorityQueue<>(
-                new Comparator<Pair>() {
-                    public int compare(Pair p1, Pair p2) {
+        PriorityQueue<Pair<MealDTO, Double>> pq = new PriorityQueue<>(
+                new Comparator<Pair<MealDTO, Double>>() {
+                    public int compare(Pair<MealDTO, Double> p1, Pair<MealDTO, Double> p2) {
                         return p2.getValue().compareTo(
                                 p1.getValue());
                     }
                 });
 
         // Build heap of difference with
-        // first k elements that fit into the desired caloric range
-        int index=0;
-        int nb=0;
-        while(nb < k && index < this.meals.size()){
-            MealDTO meal = this.meals.get(index);
-            if((meal.getCalories() <= target.getCalories()) && (!meal.getType().equals("dessert"))){    // make this possible to change from <= to >= based on target (losing/gaining weight)
-                pq.offer(new Pair(this.meals.get(index), Math.abs(calculateDistance(this.meals.get(index), target))));
-                nb++;
+        // first k elements that fit into the desired caloric range 
+        int index = 0;
+        int number = 0;
+        while(number < k && index < this.meals.size()){
+            MealDTO candidate = this.meals.get(index);
+            if((chooseBasedOnGoal(candidate, target)) && (!candidate.getType().equals("dessert"))){    // make this possible to change from <= to >= based on target (losing/gaining weight)
+                pq.offer(new Pair<MealDTO, Double>(this.meals.get(index), Math.abs(calculateDistance(this.meals.get(index), target))));
+                number++;
             }
             index++;
         }
@@ -118,27 +106,25 @@ public class SuggestionAlgorithm {
         for (int i = k; i < this.meals.size(); i++) {
 
             Double diff = Math.abs(calculateDistance(this.meals.get(i), target));    // this differrence could be rewritten as something else
+            
 
             // If difference with current
             // element is more than root,
             // then ignore it.
-            if (!isAccepted(diff, this.meals.get(i), target, pq.peek().getValue()))     // can change the condition to match
+            if (!isAccepted(diff, this.meals.get(i), target, pq.peek().getValue()))
                 continue;
 
             // Else remove root and insert
             MealDTO meal = this.meals.get(i);
             pq.poll();
-            pq.offer(new Pair(this.meals.get(i), diff));
-            this.meals.removeIf(m -> m.getUniq_id().equals(meal.getUniq_id())); // removes the already chosen meal
+            pq.offer(new Pair<MealDTO, Double>(this.meals.get(i), diff));
+            //if(!getChance())  // for 100 iters: - ~100 cals not so good
+            //    this.meals.removeIf(m -> m.getUniq_id().equals(meal.getUniq_id())); // removes the already chosen meal
 
-/*            if(isAccepted(diff, arr.get(i), x, pq.peek().getValue())){
-                pq.poll();
-                pq.offer(new Pair(arr.get(i), diff));
-            }*/
 
             // check if we found the closest matches that correspond to the epsilon and stop the search
             Double rootDifference = pq.peek().getValue();
-            if (rootDifference < eps + 0.1)
+            if (rootDifference < eps)
                 break;
         }
 
@@ -159,15 +145,13 @@ public class SuggestionAlgorithm {
      * @param pq -  
      * @return <code>true</code> if the candidate is accepted, <code>false</code> otherwise
      */
-    private static boolean isAccepted(Double diff, MealDTO candidate, MealAlgorithmDTO target,  Double pq){
-        if (diff > pq || diff < eps){
-            return false;
+    private boolean isAccepted(Double diff, MealDTO candidate, MealAlgorithmDTO target,  Double pq){
+
+        if(Math.abs(candidate.getCalories()-target.getCalories()) > 130-(this.caloriesMultiplier*10)){ 
+            return false;           
         }
 
-        if (!getChance())
-            return false;
-
-        boolean value = (diff < pq) && (!candidate.getType().equals("dessert") && (target.getCalories()>= candidate.getCalories())); //&& (element.getPrice() < 40 && element.getPrice() > 35);
+        boolean value = (diff < pq) && (!candidate.getType().equals("dessert")); //&& (element.getPrice() < 40 && element.getPrice() > 35);
         return value;
 
     }
@@ -183,11 +167,29 @@ public class SuggestionAlgorithm {
      * @param target - the target meal
      * @return <code>double</code> the difference between candidate's and target's weight values
      */
-    private static double calculateDistance(MealDTO candidate, MealAlgorithmDTO target){
-        Double candidateWeight = WeightValueCalculator.calculate(candidate.getCalories(), Integer.valueOf(candidate.getPrice_score()), Integer.valueOf(candidate.getTime_score()), 0.5, 0.5);
+    private double calculateDistance(MealDTO candidate, MealAlgorithmDTO target){
+        Double candidateWeight = WeightValueCalculator.calculate(candidate.getCalories(), Integer.valueOf(candidate.getPrice_score()), Integer.valueOf(candidate.getTime_score()), priceMultiplier, timeMultiplier, caloriesMultiplier);
+        // if (candidateWeight > target.getWeight()){
+        //     return 1;           // in order to try to equalize the number of meals bigger than target with the ones smaller
+        // }
         return Math.abs(target.getWeight() - candidateWeight);
     }
 
 
-    
+    /**
+     * Used  when deciding what initial meals to insert into the priority queue
+     * @param meal - the candidate to insert into the priority queue
+     * @param target - the target meal used as a reference for the candidates
+     * @return  <code>true</code> if based on the goal, the condition between candidate and target is satisfied, <code>false</code> otherwise
+     */
+    private boolean chooseBasedOnGoal(MealDTO meal, MealAlgorithmDTO target){
+        switch (Goal.valueOf(this.goal)) {
+            case LOSE:
+                return meal.getCalories() <= target.getCalories();
+            case GAIN:
+                return meal.getCalories() >= target.getCalories();
+            default:
+                return meal.getCalories() <= target.getCalories();
+        }
+    }
 }

@@ -6,14 +6,16 @@ import java.util.Set;
 import com.example.prepitbackend.domain.Collection;
 import com.example.prepitbackend.domain.Meal;
 import com.example.prepitbackend.dto.entities.CollectionDTO;
+import com.example.prepitbackend.dto.entities.MealChartDTO;
 import com.example.prepitbackend.dto.entities.MealDTO;
+import com.example.prepitbackend.utils.WeightValueCalculator;
 import com.example.prepitbackend.dto.entities.MealDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MealMapper {
     
-    public Meal toMeal(MealDTO mealDTO){
+    public static Meal toMeal(MealDTO mealDTO){
         return new Meal(
             null,
             mealDTO.getTitle(),
@@ -42,7 +44,7 @@ public class MealMapper {
         );
     }
 
-    public MealDTO toDto(Meal meal) {
+    public static MealDTO toDto(Meal meal) {
         Set<CollectionDTO> belongsTo = new HashSet<CollectionDTO>();
         for(Collection collection : meal.getBelongsTo()) {
             CollectionDTO collectionDto = new CollectionDTO(collection);
@@ -51,6 +53,11 @@ public class MealMapper {
        MealDTO mealSaveDTO = new MealDTO(meal);
         mealSaveDTO.setBelongsTo(belongsTo);
         return mealSaveDTO;
+    }
+
+    public static MealChartDTO toMealChartDTO(MealDTO mealDTO, double targetWeight){
+        Double weight = WeightValueCalculator.calculate(mealDTO.getCalories(), Integer.valueOf(mealDTO.getPrice_score()), Integer.valueOf(mealDTO.getTime_score()), 1.0, 1.0, 10.0);
+        return new MealChartDTO(mealDTO.getUniq_id(), mealDTO.getCalories(), mealDTO.getType(), Integer.valueOf(mealDTO.getTime_score()), Integer.valueOf(mealDTO.getPrice_score()), 1, weight, targetWeight-weight, targetWeight);
     }
 
 }

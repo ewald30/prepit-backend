@@ -10,10 +10,10 @@ public class MealAlgorithmDTO {
     private String category;
     private int calories;
 
-    public MealAlgorithmDTO(int calories, int priceScore, int timeScore, String category, Double priceScorePercent, Double timeScorePercent) {
+    public MealAlgorithmDTO(int calories, int priceScore, int timeScore, String category, Double priceScoreMultiplier, Double timeScoreMultiplier, Double calorieAccuracyMultiplier) {
         this.category = category;
         this.calories = calories;
-        this.weight = WeightValueCalculator.calculate(calories, priceScore, timeScore, timeScorePercent, priceScorePercent);
+        this.weight = WeightValueCalculator.calculate(calories, priceScore, timeScore, priceScoreMultiplier, timeScoreMultiplier, calorieAccuracyMultiplier);
     }
 
 }

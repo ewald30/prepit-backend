@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
+import com.example.prepitbackend.dto.entities.UserInfoDTO;
 import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 import com.example.prepitbackend.service.dao.UserRepo;
@@ -88,16 +89,67 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public void updateMeasurements(UserMeasurementsDTO userDto) {
+    public User updateMeasurements(UserMeasurementsDTO userDto) {
         Optional<User> userById = repository.findById(userDto.getId());
         if (userById.isPresent()) {
             User user = userById.get();
-            user.setAge(userDto.getAge());
-            user.setGender(Character.toString(userDto.getGender()));
-            user.setHeight(userDto.getHeight());
-            user.setWeight(userDto.getWeight());
+            if (userDto.getAge() != 0)
+                user.setAge(userDto.getAge());
+            
+            if (userDto.getGender() !='\0')
+                user.setGender(Character.toString(userDto.getGender()));
+
+            if (userDto.getHeight() != null)
+                user.setHeight(userDto.getHeight());
+
+            if (userDto.getWeight() != null)
+                user.setWeight(userDto.getWeight());
+
             repository.save(user);
+            return user;
+
         }
+        return null;
+    }
+
+    @Override
+    public User update(UserInfoDTO userDto) {
+        Optional<User> userById = repository.findById(userDto.getId());
+        if (userById.isPresent()) {
+            User user = userById.get();
+            
+            if (userDto.getAge() != 0)
+                user.setAge(userDto.getAge());
+            
+            if (userDto.getGender() !="")
+                user.setGender(userDto.getGender());
+
+            if (userDto.getHeight() != null)
+                user.setHeight(userDto.getHeight());
+
+            if (userDto.getWeight() != null)
+                user.setWeight(userDto.getWeight());
+
+            if (userDto.getPriceMultiplier() != null)
+                user.setPriceMultiplier(userDto.getPriceMultiplier());
+
+            if (userDto.getTimeMultiplier() != null)
+                user.setTimeMultiplier(userDto.getTimeMultiplier());
+
+            if (userDto.getAccuracyMultiplier() != null)
+                user.setAccuracyMultiplier(userDto.getAccuracyMultiplier());
+
+            if (userDto.getFirstName() != "")
+                user.setFirstName(userDto.getFirstName());
+
+            if (userDto.getLastName() != "")
+                user.setLastName(userDto.getLastName());
+
+            repository.save(user);
+            return user;
+
+        }
+        return null;
     }
 
     @Override

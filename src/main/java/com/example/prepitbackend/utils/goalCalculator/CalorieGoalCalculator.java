@@ -1,8 +1,5 @@
 package com.example.prepitbackend.utils.goalCalculator;
 
-/**
- *  Implementation of the bridge design pattern in relation with (Gain/Lose)TierCalculator and GoalCalculator
- */
 public interface CalorieGoalCalculator {
 
     /**

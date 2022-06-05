@@ -99,8 +99,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/verify").permitAll()
                 .antMatchers("/user/info").authenticated()
+                .antMatchers("/user/update-measurements").permitAll()
                 .antMatchers("/meal/generate").permitAll()
                 .antMatchers("/meal/save").permitAll()  // remove
+                .antMatchers("/meal/test/plot").permitAll()  // remove
                 .antMatchers("/collection/insert").permitAll()   //remove
                 .antMatchers("/collection/find-all").permitAll()  //remove
                 .antMatchers("/collection/find-by-user").permitAll()  //remove

@@ -48,6 +48,9 @@ public class User implements UserDetails{
     private String activityType;
     private String gender;
     private boolean enabled;
+    private Double priceMultiplier;
+    private Double timeMultiplier;
+    private Double accuracyMultiplier;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", joinColumns = @JoinColumn(referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))

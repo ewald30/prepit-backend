@@ -2,6 +2,7 @@ package com.example.prepitbackend.service.bl;
 
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
+import com.example.prepitbackend.dto.entities.UserInfoDTO;
 import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 
@@ -17,7 +18,9 @@ public interface UserService extends UserDetailsService{
 
     public User registerNewUser(UserRegisterDTO userDto);
 
-    public void updateMeasurements(UserMeasurementsDTO userDto);
+    public User updateMeasurements(UserMeasurementsDTO userDto);
+    
+    public User update(UserInfoDTO userDto);
 
     User getUser(String verificationToken);
 

@@ -66,8 +66,9 @@ public class MealServiceImpl implements MealService {
         GoalCalculator goalCalculator = new GoalCalculator(goalTierCalculator, entity.getGoalTier());
         Double goal = goalCalculator.calculate(TDEE);
         
-        ArrayList<MealAlgorithmDTO> targets = CaloricSplitter.split(entity.getNumberOfMeals(), goal, 0.5, 0.5);
-        SuggestionAlgorithm suggestionAlgorithm = new SuggestionAlgorithm(this.geAll());
+        CaloricSplitter splitter = new CaloricSplitter(entity.getNumberOfMeals(), entity.getPriceMultiplier(), entity.getTimeMultiplier(), entity.getAccuracyMultiplier());
+        ArrayList<MealAlgorithmDTO> targets = splitter.split(entity.getNumberOfMeals(), goal);
+        SuggestionAlgorithm suggestionAlgorithm = new SuggestionAlgorithm(this.geAll(), entity.getGoal(), entity.getPriceMultiplier(), entity.getTimeMultiplier(), entity.getAccuracyMultiplier());
         ArrayList<ArrayList<MealDTO>> result =  suggestionAlgorithm.runForDay(targets);
         return result;
     }

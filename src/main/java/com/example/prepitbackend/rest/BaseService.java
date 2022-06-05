@@ -17,4 +17,8 @@ public class BaseService {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
    }
 
+   protected ResponseEntity<Object> renderUnauthorized(String message){
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+}
+
 }

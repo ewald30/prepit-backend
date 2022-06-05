@@ -27,4 +27,7 @@ public class UserInfoDTO {
     private String activityType;
     private String gender;
     private Object roles;
+    private Double timeMultiplier;
+    private Double priceMultiplier;
+    private Double accuracyMultiplier;
 }

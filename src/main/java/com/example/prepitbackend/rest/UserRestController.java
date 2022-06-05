@@ -4,12 +4,14 @@ import java.security.Principal;
 
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.dto.entities.UserInfoDTO;
+import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.service.bl.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,8 +40,21 @@ public class UserRestController extends BaseService {
         userInfoDTO.setActivityType(userObj.getActivityType());
         userInfoDTO.setGender(userObj.getGender());
         userInfoDTO.setRoles(userObj.getAuthorities().toArray());
+        userInfoDTO.setAccuracyMultiplier(userObj.getAccuracyMultiplier());
+        userInfoDTO.setTimeMultiplier(userObj.getTimeMultiplier());
+        userInfoDTO.setPriceMultiplier(userObj.getPriceMultiplier());
 
         return this.renderResponse(userInfoDTO);
+    }
+
+    @PutMapping("/update-measurements")
+    public ResponseEntity<Object> updateMeasurements(@RequestBody UserMeasurementsDTO entity){
+        return renderResponse(this.userService.updateMeasurements(entity));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Object> update(@RequestBody UserInfoDTO entity){
+        return renderResponse(this.userService.update(entity));
     }
     
 }
