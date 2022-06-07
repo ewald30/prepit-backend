@@ -63,6 +63,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private JWTTokenHelper jwtTokenHelper;
 
     @Autowired
+    private RefreshToken refreshTokenHelper;
+
+    @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
@@ -98,6 +101,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/verify").permitAll()
+                .antMatchers("/auth/token/refresh").permitAll()
                 .antMatchers("/user/info").authenticated()
                 .antMatchers("/user/update-measurements").permitAll()
                 .antMatchers("/meal/generate").permitAll()
@@ -105,14 +109,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/meal/test/plot").permitAll()  // remove
                 .antMatchers("/collection/insert").permitAll()   //remove
                 .antMatchers("/collection/find-all").permitAll()  //remove
-                .antMatchers("/collection/find-by-user").permitAll()  //remove
+                .antMatchers("/collection/find-by-user").authenticated()  //remove
                 .antMatchers("/collection/save-meal").permitAll()  //remove
                 .antMatchers("/collection/find-by-id").permitAll()  //remove
                 .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
-            .addFilterBefore(new JWTAuthenticationFilter(this.userService, this.jwtTokenHelper), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JWTAuthenticationFilter(this.userService, this.jwtTokenHelper, this.refreshTokenHelper), UsernamePasswordAuthenticationFilter.class);
 
             http.cors();
 

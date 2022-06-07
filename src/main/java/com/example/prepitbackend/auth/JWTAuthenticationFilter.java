@@ -27,21 +27,27 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter{
 
     private JWTTokenHelper tokenHelper;
 
+    private RefreshToken refreshTokenHandler;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String authToken = tokenHelper.getToken(request);
+        String refreshToken = refreshTokenHandler.getToken(request);
+        
+        if (refreshToken != null && refreshTokenHandler.validateToken(refreshToken)){
+            String authToken = tokenHelper.getToken(request);
 
-        if (authToken != null) {
-            String username = tokenHelper.getUsernameFromToken(authToken);
-
-            if (username != null) {
-                UserDetails userDetails = this.userService.loadUserByUsername(username);
-
-                if (tokenHelper.validateToken(authToken, userDetails)){
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            if (authToken != null) {
+                String username = tokenHelper.getUsernameFromToken(authToken);
+    
+                if (username != null) {
+                    UserDetails userDetails = this.userService.loadUserByUsername(username);
+    
+                    if (tokenHelper.validateToken(authToken, userDetails)){
+                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                    }
                 }
             }
         }

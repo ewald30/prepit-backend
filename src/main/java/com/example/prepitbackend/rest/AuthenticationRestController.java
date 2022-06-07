@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.prepitbackend.auth.JWTTokenHelper;
+import com.example.prepitbackend.auth.RefreshToken;
 import com.example.prepitbackend.registration.RegistrationCompleteEvent;
 import com.example.prepitbackend.domain.AuthRequest;
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.domain.VerificationToken;
+import com.example.prepitbackend.dto.entities.TokenDTO;
 import com.example.prepitbackend.dto.entities.UserRegisterDTO;
 import com.example.prepitbackend.service.bl.UserService;
 import com.example.prepitbackend.validation.exceptions.UserAlreadyExistException;
@@ -24,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +53,9 @@ public class AuthenticationRestController extends BaseService{
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private RefreshToken refreshTokenHelper;
+
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody AuthRequest authRequest) throws InvalidKeySpecException, NoSuchAlgorithmException{
         final Authentication authentication = this.authenticationManager.authenticate(
@@ -63,8 +69,9 @@ public class AuthenticationRestController extends BaseService{
 
         User user = (User) authentication.getPrincipal();
         String jwtToken = jwtTokenHelper.generateToken(user.getUsername());
+        String refreshToken = refreshTokenHelper.generateToken(user.getUsername());
 
-        return renderResponse(jwtToken);
+        return renderResponse(new TokenDTO(jwtToken, refreshToken));
     }
 
     @PostMapping("/register")
@@ -99,5 +106,21 @@ public class AuthenticationRestController extends BaseService{
         userService.saveRegisteredUser(user); 
         return renderResponse("Success! \n Please go back and login!");
     }
-    
+
+    @GetMapping("/token/refresh")
+    public ResponseEntity<Object> refreshToken(HttpServletRequest request) {
+        String refreshToken = refreshTokenHelper.getToken(request);
+        String username = refreshTokenHelper.getUsernameFromToken(refreshToken);
+
+        try{
+            String jwtTokenRefreshed = this.refreshTokenHelper.refreshToken(request, username);
+            if (jwtTokenRefreshed == null){
+                renderUnauthorized("Session expired");
+            }
+            TokenDTO tokenDTO = new TokenDTO(jwtTokenRefreshed, refreshToken);
+            return renderResponse(tokenDTO);
+        } catch (Exception e){
+            return renderServerError(e.getMessage());
+        }
+    }
 }

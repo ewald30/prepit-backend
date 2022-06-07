@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -15,18 +16,22 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JWTTokenHelper {
-
-    @Value("${jwt.auth.app}")
+public class RefreshToken {
+    
+    @Value("${refresh.auth.app}")
     private String application;
 
-    @Value("${jwt.auth.secret_key}")
+    @Value("${refresh.auth.secret_key}")
     private String secretKey;
 
-    @Value("${jwt.auth.expires_in}")
+    @Value("${refresh.auth.expires_in}")
     private int expiresIn;
-    
+
+    @Autowired
+    private JWTTokenHelper jwtTokenHelper;
+
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
+
 
     private Claims getAllClaims(String token) {
         Claims  claims;
@@ -63,7 +68,7 @@ public class JWTTokenHelper {
         return date;
     }
 
-    private boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token){
         Date expireDate = this.getExpirationDateFromToken(token);
         return expireDate.before(new Date());
     }
@@ -79,12 +84,12 @@ public class JWTTokenHelper {
         return date;
     }
 
-    private String getAuthHeaderFromRequest(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+    private String getRefreshTokenFromRequest(HttpServletRequest request) {
+        return request.getHeader("Refresh-Token");
     }
 
     public String getToken(HttpServletRequest request){
-        String authHeader = getAuthHeaderFromRequest(request);
+        String authHeader = getRefreshTokenFromRequest(request);
         if (authHeader != null && authHeader.startsWith("Bearer ")){
             return authHeader.substring(7);
         }
@@ -101,10 +106,22 @@ public class JWTTokenHelper {
                     .compact();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails){
+    public boolean validateToken(String token){
         String username = this.getUsernameFromToken(token);
-        return (username != null && username.equals(userDetails.getUsername()) && !this.isTokenExpired(token));
+        return (username != null && !this.isTokenExpired(token));
+    }
+
+    public String refreshToken(HttpServletRequest request, String username) throws InvalidKeySpecException, NoSuchAlgorithmException{
+        String jwtToken = this.jwtTokenHelper.getToken(request);
+        String refreshToken = this.getToken(request);
+
+        if (jwtToken != null && validateToken(refreshToken)){
+            return jwtTokenHelper.generateToken(username);
+        }
+
+        return null;
     }
 
 
 }
+
