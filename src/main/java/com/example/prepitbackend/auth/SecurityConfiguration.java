@@ -103,15 +103,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/verify").permitAll()
                 .antMatchers("/auth/token/refresh").permitAll()
                 .antMatchers("/user/info").authenticated()
-                .antMatchers("/user/update-measurements").permitAll()
+                .antMatchers("/user/update-measurements").authenticated()
                 .antMatchers("/meal/generate").permitAll()
-                .antMatchers("/meal/save").permitAll()  // remove
+                .antMatchers("/meal/save").authenticated() // remove
                 .antMatchers("/meal/test/plot").permitAll()  // remove
-                .antMatchers("/collection/insert").permitAll()   //remove
-                .antMatchers("/collection/find-all").permitAll()  //remove
+                .antMatchers("/collection/insert").authenticated()   //remove
+                .antMatchers("/collection/find-all").authenticated()
                 .antMatchers("/collection/find-by-user").authenticated()  //remove
-                .antMatchers("/collection/save-meal").permitAll()  //remove
-                .antMatchers("/collection/find-by-id").permitAll()  //remove
+                .antMatchers("/collection/save-meal").authenticated()
+                .antMatchers("/collection/find-by-id").authenticated()
                 .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
