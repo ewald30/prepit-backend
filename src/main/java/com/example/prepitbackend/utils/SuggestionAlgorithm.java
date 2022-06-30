@@ -119,7 +119,7 @@ public class SuggestionAlgorithm {
             pq.poll();
             pq.offer(new Pair<MealDTO, Double>(this.meals.get(i), diff));
             //if(!getChance())  // for 100 iters: - ~100 cals not so good
-            //    this.meals.removeIf(m -> m.getUniq_id().equals(meal.getUniq_id())); // removes the already chosen meal
+            this.meals.removeIf(m -> m.getUniq_id().equals(meal.getUniq_id())); // removes the already chosen meal
 
 
             // check if we found the closest matches that correspond to the epsilon and stop the search
