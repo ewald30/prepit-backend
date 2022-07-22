@@ -6,6 +6,6 @@ public class WeightValueCalculator {
         Double priceScoreNormalized = Scaling.minMaxScaling(0, 5, priceScore);
         Double timeScoreNormalized = Scaling.minMaxScaling(0, 5, timeScore);
 
-        return ((caloriesNormalized*caloriesMultiplier) + (priceScoreMultiplier * priceScoreNormalized) + (timeScoreMultiplier * timeScoreNormalized));
+        return ((caloriesNormalized*caloriesMultiplier) + 0 + (timeScoreMultiplier * timeScoreNormalized));
     }
 }
