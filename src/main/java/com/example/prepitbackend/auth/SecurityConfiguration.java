@@ -115,6 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v3/api-docs").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/meal/get-by-ingredients").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
             .addFilterBefore(new JWTAuthenticationFilter(this.userService, this.jwtTokenHelper, this.refreshTokenHelper), UsernamePasswordAuthenticationFilter.class);
 

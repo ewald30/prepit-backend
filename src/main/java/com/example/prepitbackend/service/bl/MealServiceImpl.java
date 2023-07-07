@@ -6,10 +6,11 @@ import com.example.prepitbackend.domain.Goal;
 import com.example.prepitbackend.domain.Meal;
 import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
 import com.example.prepitbackend.dto.entities.MealDTO;
+import com.example.prepitbackend.dto.entities.MealIngredientsDTO;
 import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.service.dao.MealRepo;
 import com.example.prepitbackend.utils.MealJsonDTOAdapter;
-import com.example.prepitbackend.utils.SuggestionAlgorithm;
+import com.example.prepitbackend.utils.SuggestionAlgorithmImpl;
 import com.example.prepitbackend.utils.caloricSplitter.CaloricSplitter;
 import com.example.prepitbackend.utils.goalCalculator.CalorieGoalCalculator;
 import com.example.prepitbackend.utils.goalCalculator.GoalCalculator;
@@ -68,8 +69,8 @@ public class MealServiceImpl implements MealService {
         
         CaloricSplitter splitter = new CaloricSplitter(entity.getNumberOfMeals(), entity.getPriceMultiplier(), entity.getTimeMultiplier(), entity.getAccuracyMultiplier());
         ArrayList<MealAlgorithmDTO> targets = splitter.split(entity.getNumberOfMeals(), goal);
-        SuggestionAlgorithm suggestionAlgorithm = new SuggestionAlgorithm(this.geAll(), entity.getGoal(), entity.getPriceMultiplier(), entity.getTimeMultiplier(), entity.getAccuracyMultiplier());
-        ArrayList<ArrayList<MealDTO>> result =  suggestionAlgorithm.runForDay(targets);
+        SuggestionAlgorithmImpl suggestionAlgorithm = new SuggestionAlgorithmImpl(this.geAll(), entity.getGoal(), entity.getPriceMultiplier(), entity.getTimeMultiplier(), entity.getAccuracyMultiplier());
+        ArrayList<ArrayList<MealDTO>> result =  suggestionAlgorithm.runForDayByWeight(targets);
         return result;
     }
 
@@ -81,6 +82,12 @@ public class MealServiceImpl implements MealService {
     @Override
     public Meal findByUniqId(String uniqId) {
         return mealRepo.findByUniqId(uniqId);
+    }
+
+    @Override
+    public ArrayList<ArrayList<MealDTO>> getByIngredients(MealIngredientsDTO ingredients) {
+        // simply call the function of the sugestion algorithm to search for meals
+        return null;
     }
 
     

@@ -8,4 +8,9 @@ public class WeightValueCalculator {
 
         return ((caloriesNormalized*caloriesMultiplier) + 0 + (timeScoreMultiplier * timeScoreNormalized));
     }
+
+    public static Double calculate(int nbMatchedIngredients, int nbIngredients){
+        // rewrite this to something like: nbIngredients - nbMatchedIngredients (this means that 0 is the biggest value)
+        return 9.0;
+    }
 }

@@ -10,7 +10,7 @@ import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
 import com.example.prepitbackend.dto.entities.MealChartDTO;
 import com.example.prepitbackend.dto.entities.MealDTO;
 import com.example.prepitbackend.dto.mappers.MealMapper;
-import com.example.prepitbackend.utils.SuggestionAlgorithm;
+import com.example.prepitbackend.utils.SuggestionAlgorithmImpl;
 
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class AlgorithmDataExporter {
         ArrayList<ArrayList<MealDTO>> results = new ArrayList<ArrayList<MealDTO>>();
 
         for(int i=0; i<nbIterations; i++){
-            SuggestionAlgorithm suggestionAlgorithm = new SuggestionAlgorithm(meals, "LOSE", priceMultiplier, timeMultiplier, accuracyMultiplier);
+            SuggestionAlgorithmImpl suggestionAlgorithm = new SuggestionAlgorithmImpl(meals, "LOSE", priceMultiplier, timeMultiplier, accuracyMultiplier);
             results.add(suggestionAlgorithm.runForMeal(targetMeal));
         }  
 

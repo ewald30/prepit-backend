@@ -8,11 +8,12 @@ import com.example.prepitbackend.domain.Meal;
 import com.example.prepitbackend.domain.User;
 import com.example.prepitbackend.dto.entities.MealAlgorithmDTO;
 import com.example.prepitbackend.dto.entities.MealDTO;
+import com.example.prepitbackend.dto.entities.MealIngredientsDTO;
 import com.example.prepitbackend.dto.entities.UserMeasurementsDTO;
 import com.example.prepitbackend.dto.mappers.MealMapper;
 import com.example.prepitbackend.service.bl.MealService;
 import com.example.prepitbackend.service.bl.UserService;
-import com.example.prepitbackend.utils.SuggestionAlgorithm;
+import com.example.prepitbackend.utils.SuggestionAlgorithmImpl;
 import com.example.prepitbackend.utils.caloricSplitter.CaloricSplitter;
 import com.example.prepitbackend.utils.goalCalculator.GoalCalculator;
 import com.example.prepitbackend.utils.stats.AlgorithmDataExporter;
@@ -62,6 +63,11 @@ public class MealRestController extends BaseService {
     public ResponseEntity<Object> save(@RequestBody MealDTO mealDTO){
         Meal meal = mapper.toMeal(mealDTO);
         return renderResponse(mealService.save(meal));
+    }
+
+    @PostMapping("/get-by-ingredients")
+    public ResponseEntity<Object> getByIngredient(@RequestBody MealIngredientsDTO ingredientsDTO){
+        return renderResponse("Response ingredients: " +  ingredientsDTO.getIngredients());
     }
 
     @GetMapping("/test/plot")
