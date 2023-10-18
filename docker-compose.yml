@@ -9,7 +9,8 @@ services:
     networks:
       - my_bridge_network
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
 
   mysql_db:
     image: mysql:latest
@@ -25,6 +26,11 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   my_bridge_network:
