@@ -1,0 +1,164 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="berlaewald (generated)" id="1688722696512-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="authority"/>
+            </not>
+        </preConditions>
+        <createTable tableName="authority">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(45)"/>
+            <column name="description" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="collection"/>
+            </not>
+        </preConditions>
+        <createTable tableName="collection">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(500)"/>
+            <column name="description" type="VARCHAR(2000)"/>
+            <column name="user_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-3">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="collection_meal"/>
+            </not>
+        </preConditions>
+        <createTable tableName="collection_meal">
+            <column name="collection_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="meal_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-4">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="meal"/>
+            </not>
+        </preConditions>
+        <createTable tableName="meal">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(500)"/>
+            <column name="description" type="TEXT"/>
+            <column name="instructions" type="TEXT"/>
+            <column name="ingredients" type="VARCHAR(2000)"/>
+            <column name="calories" type="INT"/>
+            <column name="type" type="VARCHAR(45)"/>
+            <column name="serving" type="VARCHAR(45)"/>
+            <column name="image" type="VARCHAR(500)"/>
+            <column name="url" type="VARCHAR(1000)"/>
+            <column name="price_score" type="VARCHAR(5)"/>
+            <column name="time_score" type="VARCHAR(5)"/>
+            <column name="preparation_time" type="VARCHAR(45)"/>
+            <column name="cook_time" type="VARCHAR(45)"/>
+            <column name="total_time" type="VARCHAR(45)"/>
+            <column name="total_ratings" type="VARCHAR(45)"/>
+            <column name="keywords" type="VARCHAR(1000)"/>
+            <column name="author" type="VARCHAR(45)"/>
+            <column name="source" type="VARCHAR(45)"/>
+            <column name="crawled_at" type="VARCHAR(45)"/>
+            <column name="published_date" type="VARCHAR(45)"/>
+            <column name="nutrition_info" type="VARCHAR(1000)"/>
+            <column name="uniq_id" type="VARCHAR(45)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-5">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(45)"/>
+            <column name="password" type="VARCHAR(200)"/>
+            <column name="email" type="VARCHAR(45)"/>
+            <column name="first_name" type="VARCHAR(45)"/>
+            <column name="last_name" type="VARCHAR(45)"/>
+            <column name="age" type="INT"/>
+            <column name="weight" type="INT"/>
+            <column name="height" type="INT"/>
+            <column name="gender" type="VARCHAR(45)"/>
+            <column name="activity_type" type="VARCHAR(45)"/>
+            <column defaultValueNumeric="0" name="enabled" type="TINYINT(3)"/>
+            <column name="usercol" type="VARCHAR(45)"/>
+            <column defaultValueNumeric="1.0" name="price_multiplier" type="DOUBLE"/>
+            <column defaultValueNumeric="1.0" name="time_multiplier" type="DOUBLE"/>
+            <column defaultValueNumeric="5.0" name="accuracy_multiplier" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-6">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_authority"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_authority">
+            <column name="user_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="authority_id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-7">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="verification_token"/>
+            </not>
+        </preConditions>
+        <createTable tableName="verification_token">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="INT"/>
+            <column name="expire_date" type="datetime"/>
+            <column name="token" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="berlaewald (generated)" id="1688722696512-11">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="collection_id_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="collection_id" baseTableName="collection_meal" constraintName="collection_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="collection" validate="true"/>
+    </changeSet>
+
+    <changeSet author="berlaewald (generated)" id="1688722696512-12">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="meal_id_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="meal_id" baseTableName="collection_meal" constraintName="meal_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="meal" validate="true"/>
+    </changeSet>
+
+    <changeSet author="berlaewald (generated)" id="1688722696512-13">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="user_id_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="collection" constraintName="user_id_fk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
