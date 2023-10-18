@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      - my_bridge_network
+    depends_on:
+      - mysql_db
+
+  mysql_db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: prepit_test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - my_bridge_network
+    ports:
+      - "3307:3307"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+networks:
+  my_bridge_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
