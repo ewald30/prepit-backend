@@ -50,5 +50,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ steps.metadata.outputs.tags }}
+        tags: ${{ env.IMG_NAME }}:latest
         labels: ${{ steps.metadata.outputs.labels }}
