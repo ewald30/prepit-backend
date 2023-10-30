@@ -57,6 +57,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        push: ${{ github.event.base_ref =='refs/heads/main'}}
+        push: ${{ github.ref == 'refs/heads/main' }}
         tags: ${{ env.IMG_NAME }}:${{ steps.create_tag.outputs.tag }}
         labels: ${{ steps.metadata.outputs.labels }}
