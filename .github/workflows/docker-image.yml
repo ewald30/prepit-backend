@@ -12,7 +12,7 @@ jobs:
     name: Build and Push docker image pipeline
     runs-on: ubuntu-latest
     env:
-      IMG_NAME: ewald30/prepit
+      IMG_NAME: prepit-backend
 
     steps:
     - name: Checkout
