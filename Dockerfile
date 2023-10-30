@@ -9,6 +9,6 @@ WORKDIR /app
 
 # Copy JAR file
 COPY ./target/prepit-backend-0.0.1-SNAPSHOT.jar prepit.jar
-
+ 
 # Run JAR
 ENTRYPOINT ["java", "-jar", "/app/prepit.jar"]
