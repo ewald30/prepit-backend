@@ -2,7 +2,7 @@
 FROM eclipse-temurin:18
 
 # port 8080 intended to be published
-EXPOSE 8080
+EXPOSE 8080 
 
 # Create app directory
 WORKDIR /app
