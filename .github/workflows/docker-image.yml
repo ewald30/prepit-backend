@@ -4,7 +4,10 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+    types:
+      - closed
 
 jobs:
 
@@ -57,6 +60,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        push: ${{ github.ref == 'refs/heads/main' }}
+        push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}
         tags: ${{ env.IMG_NAME }}:${{ steps.create_tag.outputs.tag }}
         labels: ${{ steps.metadata.outputs.labels }}
