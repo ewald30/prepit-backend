@@ -3,9 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - main
-    types:
-      - closed
+      - '*'
 
 jobs:
 
@@ -58,7 +56,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}
+        push: ${{ github.ref == 'refs/heads/main' }}
         tags: ${{ env.IMG_NAME }}:${{ steps.create_tag.outputs.tag }}
         labels: ${{ steps.metadata.outputs.labels }}
 
@@ -66,6 +64,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}
+        push: ${{ github.ref == 'refs/heads/main' }}
         tags: ${{ env.IMG_NAME }}:latest
         labels: ${{ steps.metadata.outputs.labels }}
